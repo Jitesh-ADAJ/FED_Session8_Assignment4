@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Assignment4</title>
+	<style>
+		#center{
+			text-align: center;
+		}
+	</style>
+</head>
+<body id="center">
+<div id="div1">
+	
+	<button onclick="myLocation()">My Location</button>
+</div>	
+<script src="http://maps.google.com/maps/api/js?sensor=true">
+ </script>
+<script>
+		
+		var x= document.getElementById("div1");
+		function myLocation()
+		{
+			if(navigator.geolocation){
+				navigator.geolocation.getCurrentPosition(showposi);
+			}
+			else
+			{
+				x.innerHTML =" Due to some reason...Geolocation is not supported"
+			}
+
+		}
+		function showposi(position)
+		{
+
+			x.innerHTML = "Latitude:"+ position.coords.latitude + ' '+ " Longitude:"+ position.coords.longitude;
+			getAddressFromLatLang(position.coords.latitude,position.coords.longitude);
+			
+		}		
+		function getAddressFromLatLang(lat,lng)
+		{
+      
+      		var geocoder = new google.maps.Geocoder();
+        	var latLng = new google.maps.LatLng(lat,lng);
+        	geocoder.geocode( { 'latLng': latLng},function(results, status)
+        					{
+        					if (status == google.maps.GeocoderStatus.OK)
+        					{
+          						if (results[1]) 
+          						{
+          							alert(results[1].formatted_address);
+          						}
+        					}else
+        						{
+ 									alert("Geocode was not successful for the following reason: " + status);
+        						}
+        					});
+      
+    	}
+    
+
+	</script>
+
+</body>
+</html>
+
+
